@@ -1,9 +1,10 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config({ path: __dirname + '/../.env' });
+import { updateForecasts } from './lib/updateForecasts';
 
-const forecastModel: string = process.argv[2] || '';
-if (!forecastModel) {
+const forecastName: string = process.argv[2] || '';
+if (!forecastName) {
   console.log('No forecast model specified.');
   process.exit(1);
 }
@@ -20,4 +21,4 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-// updateDatabase(forecastModel).then((res) => db.close());
+updateForecasts(forecastName).then((res) => db.close());
