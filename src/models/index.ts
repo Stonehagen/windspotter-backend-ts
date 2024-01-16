@@ -1,11 +1,13 @@
-import {Forecast} from './forecast';
-import {ForecastInfo} from './forecastinfo';
-import {MapForecast} from './mapforecast';
-import {Spot} from './spot';
+import { Forecast } from './forecast';
+import { ForecastInfo } from './forecastinfo';
+import { MapForecast } from './mapforecast';
+import { Spot } from './spot';
+import { ForecastModel } from './forecastmodel';
 
 export const models = {
-  Forecast,
+  ForecastModel,
   ForecastInfo,
+  Forecast,
   MapForecast,
   Spot,
 };
