@@ -1,17 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-interface ForecastInfoDocument {
-  name: string;
-  time: Date;
-  lo1: number;
-  lo2: number;
-  la1: number;
-  la2: number;
-  dy: number;
-  dx: number;
-  nx: number;
-  ny: number;
-}
+import { ForecastInfoDocument } from '../interfaces/models';
 
 const ForecastInfoSchema = new Schema<ForecastInfoDocument>({
   name: { type: String, required: true, maxLength: 100 },

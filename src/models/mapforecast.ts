@@ -1,9 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-interface MapForecastDocument {
-  forecastInfo: Schema.Types.ObjectId;
-  forecastMaps: Object;
-}
+import { MapForecastDocument } from '../interfaces/models';
 
 const MapForecastSchema = new Schema<MapForecastDocument>({
   forecastInfo: { type: Schema.Types.ObjectId, ref: 'Forecast' },

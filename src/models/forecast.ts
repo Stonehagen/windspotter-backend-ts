@@ -1,26 +1,5 @@
-import { model, Schema, Types } from 'mongoose';
-
-interface ForecastDocument {
-  forecastInfo: Types.ObjectId;
-  time: Date;
-  t_2m: Object;
-  v_10m: Object;
-  u_10m: Object;
-  vmax_10m: Object;
-  clct_mod: Object;
-  rain_gsp: Object;
-  mwd: Object;
-  swh: Object;
-  tm10: Object;
-  tmp: Object;
-  vgrd: Object;
-  ugrd: Object;
-  gust: Object;
-  tcdc: Object;
-  pres: Object;
-  pers: Object;
-  apcp: Object;
-}
+import { model, Schema } from 'mongoose';
+import { ForecastDocument } from '../interfaces/models';
 
 const ForecastSchema = new Schema<ForecastDocument>({
   forecastInfo: { type: Schema.Types.ObjectId, ref: 'Forecast' },

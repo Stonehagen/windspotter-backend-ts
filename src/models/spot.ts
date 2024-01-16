@@ -1,14 +1,5 @@
-import { model, Schema, Types } from 'mongoose';
-
-interface SpotDocument {
-  name: string;
-  searchName: string;
-  lat: number;
-  lon: number;
-  forecasts: Types.ObjectId[];
-  windDirections: boolean[];
-  forecast: Object[];
-}
+import { model, Schema } from 'mongoose';
+import { SpotDocument } from '../interfaces/models';
 
 const SpotSchema = new Schema<SpotDocument>({
   name: { type: String, required: true, maxLength: 100 },

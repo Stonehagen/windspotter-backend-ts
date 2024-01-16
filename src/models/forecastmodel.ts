@@ -1,21 +1,5 @@
 import { model, Schema } from 'mongoose';
-
-interface ForecastModelDocument {
-  name: string;
-  dataValues: string[];
-  serverDataTimeDelay: number;
-  server: string;
-  dict: string;
-  bucket: string;
-  fcModel: string;
-  fcHeight: string;
-  regexRefTimeValue: RegExp;
-  regexRefTimeDateNc: RegExp;
-  regexRefTimeHoursNc: RegExp;
-  regexRefTimeMinutesNc: RegExp;
-  regexNameValue: RegExp;
-  regexTimeValue: RegExp;
-}
+import { ForecastModelDocument } from '../interfaces/models';
 
 const ForecastModelSchema = new Schema<ForecastModelDocument>({
   name: { type: String, required: true },
