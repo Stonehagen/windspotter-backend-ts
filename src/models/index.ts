@@ -1,5 +1,5 @@
 import { Forecast } from './forecast';
-import { ForecastInfo } from './forecastinfo';
+import { ForecastInfo } from './forecastInfo';
 import { MapForecast } from './mapforecast';
 import { Spot } from './spot';
 import { ForecastModel } from './forecastmodel';
