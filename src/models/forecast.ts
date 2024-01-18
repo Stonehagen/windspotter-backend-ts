@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { ForecastDocument } from '../interfaces/models';
+import { IForecast } from '../interfaces/models';
 
-const ForecastSchema = new Schema<ForecastDocument>({
+const ForecastSchema = new Schema<IForecast>({
   forecastInfo: { type: Schema.Types.ObjectId, ref: 'Forecast' },
   time: { type: Date, required: true },
   t_2m: { type: Object },

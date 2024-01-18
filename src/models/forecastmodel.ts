@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { ForecastModelDocument } from '../interfaces/models';
+import { IForecastModel } from '../interfaces/models';
 
-const ForecastModelSchema = new Schema<ForecastModelDocument>({
+const ForecastModelSchema = new Schema<IForecastModel>({
   name: { type: String, required: true },
   dataValues: { type: [String], required: true },
   serverDataTimeDelay: { type: Number, required: true },

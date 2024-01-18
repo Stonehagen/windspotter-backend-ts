@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { SpotDocument } from '../interfaces/models';
+import { ISpot } from '../interfaces/models';
 
-const SpotSchema = new Schema<SpotDocument>({
+const SpotSchema = new Schema<ISpot>({
   name: { type: String, required: true, maxLength: 100 },
   searchName: { type: String, required: true, maxLength: 100 },
   lat: { type: Number, required: true },
