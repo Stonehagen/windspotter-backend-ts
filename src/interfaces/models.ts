@@ -1,6 +1,6 @@
 import { Schema, Types } from 'mongoose';
 
-export interface ForecastDocument {
+export interface IForecast {
   forecastInfo: Types.ObjectId;
   time: Date;
   t_2m: Object;
@@ -22,7 +22,7 @@ export interface ForecastDocument {
   apcp: Object;
 }
 
-export interface ForecastInfoDocument {
+export interface IForecastInfo {
   name: string;
   time: Date;
   lo1: number;
@@ -35,7 +35,7 @@ export interface ForecastInfoDocument {
   ny: number;
 }
 
-export interface ForecastModelDocument {
+export interface IForecastModel {
   name: string;
   dataValues: string[];
   serverDataTimeDelay: number;
@@ -52,12 +52,12 @@ export interface ForecastModelDocument {
   regexTimeValue: RegExp;
 }
 
-export interface MapForecastDocument {
+export interface IMapForecast {
   forecastInfo: Schema.Types.ObjectId;
   forecastMaps: Object;
 }
 
-export interface SpotDocument {
+export interface ISpot {
   name: string;
   searchName: string;
   lat: number;
