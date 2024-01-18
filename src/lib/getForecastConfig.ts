@@ -3,7 +3,7 @@ import { IForecastModel } from '../interfaces/models';
 
 export const getForecastConfig = async (
   forecastName: string,
-): Promise<IForecastModel | boolean> => {
+): Promise<IForecastModel | undefined> => {
   // try to find forecast config in database by name and throw error if not found
   try {
     const forecastConfig: IForecastModel = await ForecastModel.findOne({
@@ -13,6 +13,6 @@ export const getForecastConfig = async (
     );
     return forecastConfig;
   } catch (error) {
-    return false;
+    return undefined;
   }
 };
