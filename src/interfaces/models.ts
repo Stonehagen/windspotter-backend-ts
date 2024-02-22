@@ -66,3 +66,9 @@ export interface ISpot {
   windDirections: boolean[];
   forecast: Object[];
 }
+
+export interface ILatestPrefix { 
+  hourPrefix: string, 
+  hour: string, 
+  hourPrefixBefore: string, 
+}

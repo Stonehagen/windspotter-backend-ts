@@ -4,6 +4,7 @@ dotenv.config({ path: __dirname + '/../.env' });
 import { updateForecasts } from './lib/updateForecasts';
 
 const forecastName: string = process.argv[2] || '';
+console.log(forecastName);
 if (!forecastName) {
   console.log('No forecast model specified.');
   process.exit(1);
