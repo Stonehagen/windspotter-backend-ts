@@ -25,24 +25,12 @@ export const updateForecasts = async (forecastName: string) => {
   const forecastDBTime: Date = forecastInfo ? forecastInfo.time : new Date(0);
 
   // download files
+  console.log('download files');
   const hasDownloaded = await downloadFiles(forecastDBTime, forecastConfig);
   if (!hasDownloaded) {
-    console.log('could not download files from aws');
+    console.log('could not download files from server');
     return false;
   }
-
-  // download files
-  //let newForecastTime;
-  console.log('download files');
-  // if (forecastConfigName === 'gfsAWS') {
-  //   newForecastTime = await downloadFilesGfsAWS(forecastDBTime, forecastConfigName);
-  // } else {
-  //   newForecastTime = await downloadFiles(forecastDBTime, forecastConfigName);
-  // }
-
-  // if (!newForecastTime) {
-  //   return false;
-  // }
   console.log('download complete');
   console.log('update Database');
   // const files = getFiles(`./grib_data_${forecastConfigName}`);
