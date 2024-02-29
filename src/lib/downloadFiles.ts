@@ -2,6 +2,25 @@ import fs from 'fs';
 import ftp from 'basic-ftp';
 import { IForecastModel, ILatestPrefix } from '../interfaces/models';
 import { getLatestPrefix, getKeysFromPrefix, getBody } from './handleAWS';
+import { getNextForecastTimeHour, getServerTimestamp } from './handleFTP';
+const decompress = require('decompress');
+const decompressBzip2 = require('decompress-bzip2');
+
+const decompressFile = async (file: string, name: string) => {
+  const regex = /.*(?=.bz2)/;
+  const match = file.match(regex);
+  if (match) {
+    await decompress(`./grib_data_${name}/${match[0]}`, './', {
+      plugins: [
+        decompressBzip2({
+          path: `./grib_data_${name}/${match[0]}`,
+        }),
+      ],
+    });
+    await fs.unlinkSync(`./grib_data_${name}/${file}`);
+    fs.chmodSync(`./grib_data_${name}/${match[0]}`, 0o755);
+  }
+};
 
 const downloadFilesAWS = async (
   dbTimestamp: Date,
@@ -100,12 +119,87 @@ const downloadFilesFTP = async (
     // convert list of folders to list of folderNames (forecastTimes)
     const forecastTimes = dirList.map((folderInfo) => folderInfo.name);
     // get the latest forecast folder name
+    let nextForecastTimeHour = getNextForecastTimeHour(forecastTimes);
+    const fileList = await client.list(
+      `${forecastConfig.dict}/${nextForecastTimeHour}`,
+    );
+    // get the last update time from the requested files
+    const serverTimestamp = getServerTimestamp(fileList, forecastConfig);
+    // check if the files are older than the data in our database
 
-    /// to be implemented
-    /// ...
-    /// ...
-    /// ...
+    if (
+      serverTimestamp < dbTimestamp ||
+      new Date().getTime() - serverTimestamp.getTime() < 5 * 60 * 1000
+    ) {
+      // get one forecast time before
+      const forecastTimesBefore = forecastTimes.filter(
+        (time) => time < nextForecastTimeHour,
+      );
+      // check for day shift
+      let prevForecastTimeHour =
+        forecastTimesBefore.length !== 0
+          ? getNextForecastTimeHour(forecastTimesBefore)
+          : forecastTimes[forecastTimes.length - 1];
 
+      const nexForecasstFileList = await client.list(
+        `${forecastConfig.dict}/${prevForecastTimeHour}`,
+      );
+      // get the last update time from the requested files
+      const nextServerTimestamp = getServerTimestamp(
+        nexForecasstFileList,
+        forecastConfig,
+      );
+      // check if the files are older than the data in our database
+      if (
+        nextServerTimestamp < dbTimestamp ||
+        (dbTimestamp.getUTCHours() === Number(prevForecastTimeHour) &&
+          dbTimestamp.getUTCDate() === nextServerTimestamp.getUTCDate())
+      ) {
+        console.log('database is up to date');
+        client.close();
+        return false;
+      }
+      await client.cd(`${forecastConfig.dict}/${prevForecastTimeHour}`);
+      nextForecastTimeHour = prevForecastTimeHour;
+    } else {
+      await client.cd(`${forecastConfig.dict}/${nextForecastTimeHour}`);
+    }
+
+    // create a list of the files und download them
+    for (const value of forecastConfig.dataValues) {
+      let clientList = await client.list(`./${value}`);
+      // filter out the unwanted files
+      let filenames = clientList
+        .map((file) => file.name)
+        .filter(
+          (name) =>
+            name.includes(forecastConfig.fcModel) &&
+            name.includes(forecastConfig.fcHeight),
+        );
+      //check for actual data
+      const latestModiefedAtDate = Math.max(
+        ...filenames.map((file) => {
+          const tenDigitsRegex = /(?<!\d)\d{10}(?!\d)/;
+          const match = file.match(tenDigitsRegex);
+          return match ? Number(match[0]) : 0;
+        }),
+      );
+      //filter out old files
+      filenames = filenames.filter((file) =>
+        file.includes(latestModiefedAtDate.toString()),
+      );
+
+      // download file per file
+      for (const file of filenames) {
+        await client.downloadTo(
+          `./grib_data_${forecastConfig.name}/${file}`,
+          `./${value}/${file}`,
+        );
+        await decompressFile(file, forecastConfig.name);
+      }
+    }
+
+    client.close();
     return true;
   } catch (error) {
     console.error(error);
