@@ -5,7 +5,7 @@ import { IForecastModel } from '../interfaces/models';
 
 const wgrib2 = process.env.WGRIB2_PATH;
 
-export const convertWgribToNetcdf = async (
+export const splitWgribToNetcdf = async (
   filenames: string[],
   forecastConfig: IForecastModel,
 ): Promise<boolean> => {
@@ -22,9 +22,34 @@ export const convertWgribToNetcdf = async (
             `${wgrib2} ${pathGribFile} -match '${value}' -netcdf ${pathNetcdfFile}`,
           ).code) !== 0
         ) {
-          shell.echo('Error: wgrib2 failed');
+          shell.echo('Error: wgrib2 to netcdf split failed');
           shell.exit(1);
         }
+      }
+      await fs.unlinkSync(`./grib_data_${forecastConfig.name}/${filename}`);
+    }
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
+};
+
+export const convertWgribToNetcdf = async (
+  filenames: string[],
+  forecastConfig: IForecastModel,
+): Promise<boolean> => {
+  try {
+    for (const filename of filenames) {
+      const pathGribFile = `./grib_data_${forecastConfig.name}/${filename}`;
+      const pathNetcdfFile = pathGribFile.replace('.grib2', '.nc');
+
+      if (
+        shell.exec(`${wgrib2} ${pathGribFile} -netcdf ${pathNetcdfFile}`)
+          .code !== 0
+      ) {
+        shell.echo('Error: wgrib2 to netcdf single failed');
+        shell.exit(1);
       }
       await fs.unlinkSync(`./grib_data_${forecastConfig.name}/${filename}`);
     }
