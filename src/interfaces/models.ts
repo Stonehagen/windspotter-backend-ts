@@ -1,6 +1,6 @@
-import { Schema, Types } from 'mongoose';
+import { Schema, Types, Document } from 'mongoose';
 
-export interface IForecastInfo {
+export interface IForecastInfo extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   time: Date;
@@ -14,7 +14,7 @@ export interface IForecastInfo {
   ny: number;
 }
 
-export interface IForecast {
+export interface IForecast extends Document {
   _id: Schema.Types.ObjectId;
   forecastInfo: IForecastInfo;
   time: Date;
@@ -37,7 +37,7 @@ export interface IForecast {
   apcp: Object;
 }
 
-export interface IForecastModel {
+export interface IForecastModel extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   dataValues: string[];
@@ -56,13 +56,13 @@ export interface IForecastModel {
   regexTimeValue: RegExp;
 }
 
-export interface IMapForecast {
+export interface IMapForecast extends Document {
   _id: Schema.Types.ObjectId;
   forecastInfo: IForecastInfo;
   forecastMaps: Object;
 }
 
-export interface ISpot {
+export interface ISpot extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   searchName: string;
