@@ -78,3 +78,8 @@ export interface ILatestPrefix {
   hour: string, 
   hourPrefixBefore: string, 
 }
+
+export interface IDataValues {
+  dataValues: number[];
+  forecastTime: number;
+}
