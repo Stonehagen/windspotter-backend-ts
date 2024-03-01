@@ -189,6 +189,7 @@ const downloadFilesFTP = async (
         file.includes(latestModiefedAtDate.toString()),
       );
 
+      // TODO: download files in parallel and decompress after download
       // download file per file
       for (const file of filenames) {
         await client.downloadTo(
