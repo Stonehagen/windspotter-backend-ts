@@ -1,7 +1,22 @@
 import { Schema, Types } from 'mongoose';
 
+export interface IForecastInfo {
+  _id: Schema.Types.ObjectId;
+  name: string;
+  time: Date;
+  lo1: number;
+  lo2: number;
+  la1: number;
+  la2: number;
+  dy: number;
+  dx: number;
+  nx: number;
+  ny: number;
+}
+
 export interface IForecast {
-  forecastInfo: Types.ObjectId;
+  _id: Schema.Types.ObjectId;
+  forecastInfo: IForecastInfo;
   time: Date;
   t_2m: Object;
   v_10m: Object;
@@ -22,20 +37,8 @@ export interface IForecast {
   apcp: Object;
 }
 
-export interface IForecastInfo {
-  name: string;
-  time: Date;
-  lo1: number;
-  lo2: number;
-  la1: number;
-  la2: number;
-  dy: number;
-  dx: number;
-  nx: number;
-  ny: number;
-}
-
 export interface IForecastModel {
+  _id: Schema.Types.ObjectId;
   name: string;
   dataValues: string[];
   serverDataTimeDelay: number;
@@ -54,16 +57,18 @@ export interface IForecastModel {
 }
 
 export interface IMapForecast {
-  forecastInfo: Schema.Types.ObjectId;
+  _id: Schema.Types.ObjectId;
+  forecastInfo: IForecastInfo;
   forecastMaps: Object;
 }
 
 export interface ISpot {
+  _id: Schema.Types.ObjectId;
   name: string;
   searchName: string;
   lat: number;
   lon: number;
-  forecasts: Types.ObjectId[];
+  forecasts: IForecast[];
   windDirections: boolean[];
   forecast: Object[];
 }
