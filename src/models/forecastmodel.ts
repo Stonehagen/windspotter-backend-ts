@@ -10,6 +10,7 @@ const ForecastModelSchema = new Schema<IForecastModel>({
   bucket: { type: String, required: false },
   fcModel: { type: String, required: false },
   fcHeight: { type: String, required: false },
+  split: { type: Boolean, required: true, default: false },
   regexRefTimeValue: { type: String, required: false },
   regexRefTimeDateNc: { type: String, required: false },
   regexRefTimeHoursNc: { type: String, required: false },

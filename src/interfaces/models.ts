@@ -44,6 +44,7 @@ export interface IForecastModel {
   bucket: string;
   fcModel: string;
   fcHeight: string;
+  split: boolean;
   regexRefTimeValue: RegExp;
   regexRefTimeDateNc: RegExp;
   regexRefTimeHoursNc: RegExp;
