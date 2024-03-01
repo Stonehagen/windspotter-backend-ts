@@ -1,3 +1,4 @@
+import { IForecastModel } from '../interfaces/models';
 import fs from 'fs';
 
 export const getFiles = async (path: string): Promise<string[]> => {
@@ -18,9 +19,17 @@ export const deleteFiles = async (path: string): Promise<boolean> => {
   return true;
 };
 
-export const sortFilesByValue = (files, value, forecastConfigName) => {
-  const regex = config[forecastConfigName].regexNameValue;
-  return files.filter(
-    (file) => file.match(regex)[0].toLowerCase() === value.toLowerCase(),
-  );
+export const sortFilesByValue = (
+  files: string[],
+  value: string,
+  forecastConfig: IForecastModel,
+): string[] => {
+  const regex = forecastConfig.regexNameValue;
+  return files.filter((file) => {
+    const match = file.match(regex);
+    if (match) {
+      return match[0].toLowerCase() === value.toLowerCase();
+    }
+    return false;
+  });
 };
