@@ -80,7 +80,7 @@ export interface ILatestPrefix {
 }
 
 export interface IDataValues {
-  dataValues: number[] | null;
+  dataValues: (number | null)[];
   forecastTime: number;
 }
 
