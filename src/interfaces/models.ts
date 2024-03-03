@@ -83,3 +83,23 @@ export interface IDataValues {
   dataValues: number[];
   forecastTime: number;
 }
+
+export interface IForecastHeader {
+  forecastName: string;
+  forecastType: string;
+  refTime: Date;
+  forecastTime: number;
+  lo1: number;
+  lo2: number;
+  la1: number;
+  la2: number;
+  dx: number;
+  dy: number;
+  nx: number | null;
+  ny: number | null;
+}
+
+export interface ISpotPos {
+  lon: number;
+  lat: number;
+}
