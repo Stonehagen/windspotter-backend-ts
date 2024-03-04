@@ -22,4 +22,11 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-updateForecasts(forecastName).then((res) => db.close());
+updateForecasts(forecastName).then((res) => {
+  if (res) {
+    console.log('forecasts updated');
+  } else {
+    console.log('forecasts not updated');
+  }
+  db.close()
+});
