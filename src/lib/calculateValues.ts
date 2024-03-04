@@ -49,9 +49,9 @@ export const calculateDataValue = (
   spot: ISpot,
   forecastHeader: IForecastHeader,
   forecastData: number[],
-): number | null => {
+): number => {
   if (!inGrid(spot, forecastHeader)) {
-    return null;
+    return 0;
   }
   // bilinear interpolation for 4 points around spot position
   // https://en.wikipedia.org/wiki/Bilinear_interpolation
