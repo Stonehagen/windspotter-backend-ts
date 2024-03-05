@@ -9,6 +9,10 @@ const SpotSchema = new Schema<ISpot>({
   forecasts: [{ type: Schema.Types.ObjectId, ref: 'Forecast' }],
   windDirections: [{ type: Boolean }],
   forecast: [{ type: Object }],
+  waveForecast: { type: String, default: '' },
+  shortRangeForecast: { type: String, default: '' },
+  midRangeForecast: { type: String, default: '' },
+  longRangeForecast: { type: String, default: 'gfsAWS' },
 });
 
 export const Spot = model('Spot', SpotSchema);
