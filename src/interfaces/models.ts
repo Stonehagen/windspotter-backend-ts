@@ -14,27 +14,31 @@ export interface IForecastInfo extends Document {
   ny: number;
 }
 
+interface IDataValue {
+  [id: string]: number;
+}
+
 export interface IForecast extends Document {
   _id: Schema.Types.ObjectId;
   forecastInfo: IForecastInfo;
   time: Date;
-  t_2m: Object;
-  v_10m: Object;
-  u_10m: Object;
-  vmax_10m: Object;
-  clct_mod: Object;
-  rain_gsp: Object;
-  mwd: Object;
-  swh: Object;
-  tm10: Object;
-  tmp: Object;
-  vgrd: Object;
-  ugrd: Object;
-  gust: Object;
-  tcdc: Object;
-  pres: Object;
-  pers: Object;
-  apcp: Object;
+  t_2m: IDataValue;
+  v_10m: IDataValue;
+  u_10m: IDataValue;
+  vmax_10m: IDataValue;
+  clct_mod: IDataValue;
+  rain_gsp: IDataValue;
+  mwd: IDataValue;
+  swh: IDataValue;
+  tm10: IDataValue;
+  tmp: IDataValue;
+  vgrd: IDataValue;
+  ugrd: IDataValue;
+  gust: IDataValue;
+  tcdc: IDataValue;
+  pres: IDataValue;
+  pers: IDataValue;
+  apcp: IDataValue;
 }
 
 export interface IForecastModel extends Document {
@@ -109,18 +113,43 @@ export interface ISpotPos {
 }
 
 export interface ISpotForecastData {
-  mwd: object;
-  swh: object;
-  tm10: object;
-  t_2m: object;
-  v_10m: object;
-  u_10m: object;
-  vmax_10m: object;
-  clct_mod: object;
-  rain_gsp: object;
+  mwd: IDataValue;
+  swh: IDataValue;
+  tm10: IDataValue;
+  t_2m: IDataValue;
+  v_10m: IDataValue;
+  u_10m: IDataValue;
+  vmax_10m: IDataValue;
+  clct_mod: IDataValue;
+  rain_gsp: IDataValue;
 }
 
 export interface ISpotForecast {
-  forecastModels: object;
+  forecastModels: ISpotForecastModels;
   forecast: ISpotForecastData;
+}
+
+export interface ISpotForecastModels {
+  wave: ISpotForecastModel;
+  shortRange: ISpotForecastModel;
+  midRange: ISpotForecastModel;
+  longRange: ISpotForecastModel;
+}
+
+export interface ISpotForecastModel {
+  name: string;
+  time: Date;
+  lastDay: string;
+}
+
+export interface ILastForecast {
+  t: number;
+  dir: number;
+  ws: number;
+  wsMax: number;
+  clouds: number;
+  rain: number;
+  waveDir: number;
+  waveHeight: number;
+  wavePeriod: number;
 }
