@@ -28,5 +28,7 @@ updateForecasts(forecastName).then((res) => {
   } else {
     console.log('forecasts not updated');
   }
-  db.close()
-});
+}).finally(() => {
+  db.close();
+}
+);
