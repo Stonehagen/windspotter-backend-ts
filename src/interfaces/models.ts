@@ -71,12 +71,16 @@ export interface ISpot extends Document {
   forecasts: IForecast[];
   windDirections: boolean[];
   forecast: Object[];
+  waveForecast: string;
+  shortRangeForecast: string;
+  midRangeForecast: string;
+  longRangeForecast: string;
 }
 
-export interface ILatestPrefix { 
-  hourPrefix: string, 
-  hour: string, 
-  hourPrefixBefore: string, 
+export interface ILatestPrefix {
+  hourPrefix: string;
+  hour: string;
+  hourPrefixBefore: string;
 }
 
 export interface IDataValues {
@@ -102,4 +106,21 @@ export interface IForecastHeader {
 export interface ISpotPos {
   lon: number;
   lat: number;
+}
+
+export interface ISpotForecastData {
+  mwd: object;
+  swh: object;
+  tm10: object;
+  t_2m: object;
+  v_10m: object;
+  u_10m: object;
+  vmax_10m: object;
+  clct_mod: object;
+  rain_gsp: object;
+}
+
+export interface ISpotForecast {
+  forecastModels: object;
+  forecast: ISpotForecastData;
 }
