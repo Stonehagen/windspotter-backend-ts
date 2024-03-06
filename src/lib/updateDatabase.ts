@@ -12,8 +12,7 @@ import {
   ISpotForecastModel,
   ISpotForecastModels,
 } from '../interfaces/models';
-import { Forecast } from '../models/forecast';
-import { Spot } from '../models/spot';
+import { Forecast, Spot } from '../models';
 
 export const updateSpotForecast = async (
   spot: ISpot,
@@ -109,7 +108,6 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
   const getTemperature = (t: number): number => {
     return t - 273.15;
   };
-
   const getLastForecastDay = (forecast: Object): string => {
     if (!forecast) {
       return new Date(0).toISOString();

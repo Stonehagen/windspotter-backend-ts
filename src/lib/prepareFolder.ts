@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { deleteFiles } from './deleteFiles';
+import { deleteFiles } from './handleLocalFiles';
 
 export const prepareFolder = async (path: string): Promise<void> => {
   //check if path exists
