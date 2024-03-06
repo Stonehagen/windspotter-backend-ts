@@ -125,14 +125,14 @@ export const getKeysFromPrefix = async (
 export const getBody = async (
   bucket: string,
   file: string,
-): Promise<string> => {
+): Promise<Buffer> => {
   const command = new GetObjectCommand({
     Bucket: bucket,
     Key: file,
   });
   const data = await client.send(command);
   // Convert body to string
-  const body = data.Body?.toString() || '';
+  const body = data.Body as unknown as Buffer;
 
   return body;
 };

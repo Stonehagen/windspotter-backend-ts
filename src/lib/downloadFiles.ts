@@ -3,8 +3,10 @@ import ftp from 'basic-ftp';
 import { IForecastModel, ILatestPrefix } from '../interfaces/models';
 import { getLatestPrefix, getKeysFromPrefix, getBody } from './handleAWS';
 import { getNextForecastTimeHour, getServerTimestamp } from './handleFTP';
-const decompress = require('decompress');
+import decompress from 'decompress';
 const decompressBzip2 = require('decompress-bzip2');
+
+
 
 const decompressFile = async (file: string, name: string) => {
   const regex = /.*(?=.bz2)/;
