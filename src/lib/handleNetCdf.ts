@@ -57,7 +57,6 @@ const populateSpots = async (
     forecastInfo,
     forecastConfig,
   );
-
   const ncData: Buffer = readFileSync(
     `./grib_data_${forecastConfig.name}/${filename}`,
   );

@@ -78,11 +78,7 @@ export const updateForecasts = async (forecastName: string) => {
     console.log('could not sort netcdf files');
     return false;
   }
-
-  const convertedNetCdf = await convertNetCdf(
-    sortedNcFiles,
-    forecastConfig,
-  );
+  const convertedNetCdf = await convertNetCdf(sortedNcFiles, forecastConfig);
   if (!convertedNetCdf) {
     console.log('could not convert netcdf files');
     return false;
