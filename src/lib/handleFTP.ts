@@ -1,3 +1,4 @@
+import { FileInfo } from 'basic-ftp';
 import { IForecastModel } from '../interfaces/models';
 
 export const getNextForecastTimeHour = (forecastTimes: string[]): string => {
@@ -14,7 +15,7 @@ export const getNextForecastTimeHour = (forecastTimes: string[]): string => {
 };
 
 const getFileTimestamps = (
-  files: any[], // TODO: replace with proper type
+  files: FileInfo[],
 ): number[] => {
   const dateNow = new Date();
   return files.map((file) => {
@@ -34,7 +35,7 @@ const getFileTimestamps = (
 };
 
 export const getServerTimestamp = (
-  fileList: any[], // TODO: replace with proper type
+  fileList: FileInfo[],
   forecastConfig: IForecastModel,
 ): Date => {
   // reduce array to only get the required values

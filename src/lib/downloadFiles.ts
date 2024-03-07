@@ -129,7 +129,6 @@ const downloadFilesFTP = async (
     // get the last update time from the requested files
     const serverTimestamp = getServerTimestamp(fileList, forecastConfig);
     // check if the files are older than the data in our database
-
     if (
       serverTimestamp < dbTimestamp ||
       new Date().getTime() - serverTimestamp.getTime() < 5 * 60 * 1000
