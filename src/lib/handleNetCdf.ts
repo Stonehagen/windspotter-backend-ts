@@ -79,7 +79,10 @@ const populateSpots = async (
   // difference between the current and the last forecast time
 
   let rawDataValues: IDataValues | null = null;
-  if (forecastHeader.forecastType === 'apcp') {
+  if (
+    forecastHeader.forecastType === 'apcp' ||
+    forecastHeader.forecastType === 'rain_gsp'
+  ) {
     rawDataValues = {
       dataValues: [...dataValues],
       forecastTime: forecastHeader.forecastTime,
