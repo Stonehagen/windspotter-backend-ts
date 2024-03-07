@@ -1,5 +1,5 @@
 import fs from 'fs';
-import ftp from 'basic-ftp';
+import { Client } from "basic-ftp"
 import { IForecastModel, ILatestPrefix } from '../interfaces/models';
 import { getLatestPrefix, getKeysFromPrefix, getBody } from './handleAWS';
 import { getNextForecastTimeHour, getServerTimestamp } from './handleFTP';
@@ -12,7 +12,7 @@ const decompressFile = async (file: string, name: string) => {
   const regex = /.*(?=.bz2)/;
   const match = file.match(regex);
   if (match) {
-    await decompress(`./grib_data_${name}/${match[0]}`, './', {
+    await decompress(`./grib_data_${name}/${file}`, './', {
       plugins: [
         decompressBzip2({
           path: `./grib_data_${name}/${match[0]}`,
@@ -110,12 +110,13 @@ const downloadFilesFTP = async (
   dbTimestamp: Date,
   forecastConfig: IForecastModel,
 ): Promise<boolean> => {
-  const client = new ftp.Client();
+  const client = new Client();
 
   try {
     await client.access({
       host: forecastConfig.server,
     });
+
     // get a list of folders from the given ftp path
     const dirList = await client.list(forecastConfig.dict);
     // convert list of folders to list of folderNames (forecastTimes)
