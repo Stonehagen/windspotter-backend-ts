@@ -173,7 +173,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       mwd: {},
       swh: {},
       tm10: {},
-      forecastInfo: { time: new Date(0) },
+      forecastInfo: { time: new Date(0), name: ''},
     });
   }
 
@@ -185,7 +185,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0) },
+      forecastInfo: { time: new Date(0), name: '' },
     });
   }
 
@@ -197,7 +197,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0) },
+      forecastInfo: { time: new Date(0), name: '' },
     });
   }
 
@@ -209,7 +209,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0) },
+      forecastInfo: { time: new Date(0), name: '' },
     });
   }
 
