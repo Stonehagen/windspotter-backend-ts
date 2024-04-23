@@ -12,7 +12,7 @@ import {
   ISpotForecastModel,
   ISpotForecastModels,
 } from '../interfaces/models';
-import { Forecast, Spot } from '../models';
+import { Forecast, ForecastInfo, Spot } from '../models';
 
 export const updateSpotForecast = async (
   spot: ISpot,
@@ -173,7 +173,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       mwd: {},
       swh: {},
       tm10: {},
-      forecastInfo: { time: new Date(0), name: ''},
+      forecastInfo: new ForecastInfo({ time: new Date(0), name: '' }),
     });
   }
 
@@ -185,7 +185,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0), name: '' },
+      forecastInfo: new ForecastInfo({ time: new Date(0), name: '' }),
     });
   }
 
@@ -197,7 +197,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0), name: '' },
+      forecastInfo: new ForecastInfo({ time: new Date(0), name: '' }),
     });
   }
 
@@ -209,7 +209,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
       vmax_10m: {},
       clct_mod: {},
       rain_gsp: {},
-      forecastInfo: { time: new Date(0), name: '' },
+      forecastInfo: new ForecastInfo({ time: new Date(0), name: '' }),
     });
   }
 
@@ -369,7 +369,9 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
     // only add forecast values for today and the future
     if (forecastTimestamp.getTime() >= today) {
       // if forecast value is not available, use last available value or 0
-      const lastForecast: ILastForecast = newForecastArray[newForecastArray.length - 1]
+      const lastForecast: ILastForecast = newForecastArray[
+        newForecastArray.length - 1
+      ]
         ? newForecastArray[newForecastArray.length - 1]
         : {
             t: 0,
