@@ -3,3 +3,6 @@
 build
 node_modules
 /grib_data_icon-d2
+/grib_data_icon-eu
+/grib_data_gfsAWS
+/grib_data_cwam
