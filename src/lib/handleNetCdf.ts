@@ -41,6 +41,14 @@ export const convertNetCdf = async (
   if (savedToDB.includes(false)) {
     // TODO: add better error handling and logging
     console.log('some spots could not be updated');
+  } else {
+    const forecastHeader: IForecastHeader = getForecastHeader(
+      filesList[filesList.length - 1][0],
+      forecastInfo,
+      forecastConfig,
+    );
+    forecastInfo.time = forecastHeader.refTime;
+    await forecastInfo.save();
   }
   return true;
 };

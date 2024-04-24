@@ -22,12 +22,24 @@ export const getForecastHeader = (
   if (!forecastTypeMatch) {
     throw new Error('No match for forecast type in filename');
   }
+  const forecastDate = filename.match(forecastConfig.regexRefTimeDateNc);
+  if (!forecastDate) {
+    throw new Error('No match for forecast date in filename');
+  }
+  const forecastHour = filename.match(forecastConfig.regexRefTimeHoursNc);
+  if (!forecastHour) {
+    throw new Error('No match for forecast hour in filename');
+  }
+  const forecastRefTime = new Date(
+    `${forecastDate[0]}T${forecastHour[0]}:00:00Z`,
+  );
+
   const forecastType: string = forecastTypeMatch[0].toLowerCase();
 
   const forecastHeader: IForecastHeader = {
     forecastName: forecastConfig.name,
     forecastType,
-    refTime: forecastInfo.time,
+    refTime: forecastRefTime,
     forecastTime,
     lo1: forecastInfo.lo1,
     lo2: forecastInfo.lo2,
