@@ -55,7 +55,6 @@ const downloadFilesAWS = async (
       fullPrefix = `${newPrefix}/atmos/`;
       files = await getKeysFromPrefix(forecastConfig, fullPrefix, newhour);
       forecastHour = newhour;
-      console.log('new files', files);
     }
   }
   if (files === undefined) return false;
