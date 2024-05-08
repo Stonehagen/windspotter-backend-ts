@@ -41,6 +41,7 @@ const downloadFilesAWS = async (
     fullPrefix,
     hour,
   );
+
   if (files === undefined) {
     if (hour != '00') {
       const newhour = (+hour - 6).toString().padStart(2, '0');
@@ -54,6 +55,7 @@ const downloadFilesAWS = async (
       fullPrefix = `${newPrefix}/atmos/`;
       files = await getKeysFromPrefix(forecastConfig, fullPrefix, newhour);
       forecastHour = newhour;
+      console.log('new files', files);
     }
   }
   if (files === undefined) return false;

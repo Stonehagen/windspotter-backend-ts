@@ -79,7 +79,7 @@ export const getLatestPrefix = async (
         prefix,
       );
       if (hourPrefixForDate) {
-        const datebeforePrefix = getDatePrefix(i - 1);
+        const datebeforePrefix = getDatePrefix(i + 1);
         const hourPrefixBefore = hourPrefixForDate.hourPrefix.replace(
           prefix,
           datebeforePrefix,
