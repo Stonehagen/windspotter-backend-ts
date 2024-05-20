@@ -10,6 +10,8 @@ if (!forecastName) {
   process.exit(1);
 }
 
+const test = process.argv[3] === 'test';
+
 const mongoDB: string = process.env.MONGODB_URI || '';
 if (!mongoDB) {
   console.log(
@@ -22,13 +24,14 @@ mongoose.connect(mongoDB);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-updateForecasts(forecastName).then((res) => {
-  if (res) {
-    console.log('forecasts updated');
-  } else {
-    console.log('forecasts not updated');
-  }
-}).finally(() => {
-  db.close();
-}
-);
+updateForecasts(forecastName, test)
+  .then((res) => {
+    if (res) {
+      console.log('forecasts updated');
+    } else {
+      console.log('forecasts not updated');
+    }
+  })
+  .finally(() => {
+    db.close();
+  });

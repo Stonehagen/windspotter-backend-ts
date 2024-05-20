@@ -13,10 +13,9 @@ export const splitWgribToNetcdf = async (
     for (const filename of filenames) {
       for (const value of forecastConfig.dataValues) {
         const pathGribFile = `./grib_data_${forecastConfig.name}/${filename}`;
-        const pathNetcdfFile = pathGribFile.replace(
-          '.grb2',
-          `_${value.split(':')[1]}.nc`,
-        );
+        const pathNetcdfFile = pathGribFile
+          .replace('.grb2', `_${value.split(':')[1]}.nc`)
+          .replace('.grib2', `_${value.split(':')[1]}.nc`);
         if (
           (await shell.exec(
             `${wgrib2} ${pathGribFile} -match '${value}' -netcdf ${pathNetcdfFile}`,

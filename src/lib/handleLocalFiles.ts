@@ -27,6 +27,12 @@ export const sortFilesByValue = (
   const regex = forecastConfig.regexNameValue;
   return files.filter((file) => {
     const match = file.match(regex);
+    if (forecastConfig.name === 'gfsAWS') {
+      if (match) {
+        return match[0].toLowerCase() === value.toLowerCase().split(':')[1];
+      }
+      return false;
+    }
     if (match) {
       return match[0].toLowerCase() === value.toLowerCase();
     }

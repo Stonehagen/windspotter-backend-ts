@@ -1,4 +1,8 @@
-import { IForecastHeader, IForecastInfo, IForecastModel } from '../interfaces/models';
+import {
+  IForecastHeader,
+  IForecastInfo,
+  IForecastModel,
+} from '../interfaces/models';
 
 const getForecastTime = (
   filename: string,
@@ -31,7 +35,10 @@ export const getForecastHeader = (
     throw new Error('No match for forecast hour in filename');
   }
   const forecastRefTime = new Date(
-    `${forecastDate[0]}T${forecastHour[0]}:00:00Z`,
+    `${forecastDate[0].substring(0, 4)}-${forecastDate[0].substring(
+      4,
+      6,
+    )}-${forecastDate[0].substring(6, 8)}T${forecastHour[0]}:00:00Z`,
   );
 
   const forecastType: string = forecastTypeMatch[0].toLowerCase();

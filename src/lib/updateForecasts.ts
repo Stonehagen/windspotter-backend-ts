@@ -8,7 +8,7 @@ import { splitWgribToNetcdf, convertWgribToNetcdf } from './handleWgrib';
 import { convertNetCdf } from './handleNetCdf';
 import { compileSpotForecasts } from './updateDatabase';
 
-export const updateForecasts = async (forecastName: string) => {
+export const updateForecasts = async (forecastName: string, test: boolean) => {
   // get forecast config from database
   const forecastConfig: IForecastModel | undefined = await getForecastConfig(
     forecastName,
@@ -32,6 +32,7 @@ export const updateForecasts = async (forecastName: string) => {
   const hasDownloaded: boolean = await downloadFiles(
     forecastDBTime,
     forecastConfig,
+    test,
   );
   if (!hasDownloaded) {
     console.log('could not download files from server');
@@ -71,6 +72,7 @@ export const updateForecasts = async (forecastName: string) => {
     console.log('could not get netcdf files');
     return false;
   }
+
   const sortedNcFiles: string[][] = forecastConfig.dataValues.map((value) =>
     sortFilesByValue(ncFiles, value, forecastConfig),
   );

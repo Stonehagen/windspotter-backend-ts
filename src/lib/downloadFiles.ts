@@ -1,12 +1,11 @@
 import fs from 'fs';
-import { Client } from "basic-ftp"
+import { Client } from 'basic-ftp';
 import { IForecastModel, ILatestPrefix } from '../interfaces/models';
 import { getLatestPrefix, getKeysFromPrefix, getBody } from './handleAWS';
 import { getNextForecastTimeHour, getServerTimestamp } from './handleFTP';
 import decompress from 'decompress';
+import { get } from 'http';
 const decompressBzip2 = require('decompress-bzip2');
-
-
 
 const decompressFile = async (file: string, name: string) => {
   const regex = /.*(?=.bz2)/;
@@ -27,6 +26,7 @@ const decompressFile = async (file: string, name: string) => {
 const downloadFilesAWS = async (
   dbTimestamp: Date,
   forecastConfig: IForecastModel,
+  test: boolean,
 ): Promise<boolean> => {
   const latestPrefix: ILatestPrefix | undefined = await getLatestPrefix(
     forecastConfig,
@@ -87,8 +87,9 @@ const downloadFilesAWS = async (
   const date = dateMatch ? dateMatch[0] : '';
   for (const files of filesList) {
     const downloadPromises = [];
-    for (let i = 0; i < files.length; i += 5) {
-      const filesBundle = files.slice(i, i + 5);
+    const bundlesize = test ? 1 : 5;
+    for (let i = 0; i < files.length; i += bundlesize) {
+      const filesBundle = files.slice(i, i + bundlesize);
       const downloadPromise = Promise.all(
         filesBundle.map(async (file) => {
           const body = await getBody(forecastConfig.bucket, file);
@@ -100,8 +101,14 @@ const downloadFilesAWS = async (
         }),
       );
       downloadPromises.push(downloadPromise);
+      if (test) {
+        break;
+      }
     }
     await Promise.all(downloadPromises);
+    if (test) {
+      break;
+    }
   }
 
   return true;
@@ -110,6 +117,7 @@ const downloadFilesAWS = async (
 const downloadFilesFTP = async (
   dbTimestamp: Date,
   forecastConfig: IForecastModel,
+  test: boolean,
 ): Promise<boolean> => {
   const client = new Client();
 
@@ -132,7 +140,9 @@ const downloadFilesFTP = async (
     // check if the files are older than the data in our database
     if (
       serverTimestamp < dbTimestamp ||
-      new Date().getTime() - serverTimestamp.getTime() < 5 * 60 * 1000
+      new Date().getTime() - serverTimestamp.getTime() < 5 * 60 * 1000 ||
+      (dbTimestamp.getUTCHours() === Number(nextForecastTimeHour) &&
+        dbTimestamp.getUTCDate() === serverTimestamp.getUTCDate())
     ) {
       // get one forecast time before
       const forecastTimesBefore = forecastTimes.filter(
@@ -200,6 +210,9 @@ const downloadFilesFTP = async (
           `./${value}/${file}`,
         );
         await decompressFile(file, forecastConfig.name);
+        if (test) {
+          break;
+        }
       }
     }
 
@@ -214,15 +227,16 @@ const downloadFilesFTP = async (
 export const downloadFiles = async (
   dbTimestamp: Date,
   forecastConfig: IForecastModel,
+  test: boolean,
 ): Promise<boolean> => {
   let hasDownloaded: boolean = false;
   // check if forecast server is AWS
   if (forecastConfig.server === 'AWS') {
     // download files from AWS
-    hasDownloaded = await downloadFilesAWS(dbTimestamp, forecastConfig);
+    hasDownloaded = await downloadFilesAWS(dbTimestamp, forecastConfig, test);
   } else {
     // download files from FTP
-    hasDownloaded = await downloadFilesFTP(dbTimestamp, forecastConfig);
+    hasDownloaded = await downloadFilesFTP(dbTimestamp, forecastConfig, test);
   }
   return hasDownloaded;
 };
