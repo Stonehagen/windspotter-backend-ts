@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import moment from 'moment';
+import { getSunrise, getSunset } from 'sunrise-sunset-js';
 import { Types } from 'mongoose';
 import {
   IForecast,
@@ -434,6 +435,30 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
   }
 
   spot.forecast = newForecastArray;
+
+  // check if spot sunrise and sunset are set and update them if not or if they are outdated
+  const todayDate = new Date().setHours(0, 0, 0, 0);
+  const updateTime = spot.updated ? spot.updated : new Date(0);
+  if (
+    !spot.sunrise ||
+    !spot.sunset ||
+    updateTime.getTime() < todayDate
+  ) {
+    const sunrise = getSunrise(
+      spot.lat,
+      spot.lon,
+      new Date(todayDate),
+    ).toISOString();
+    const sunset = getSunset(
+      spot.lat,
+      spot.lon,
+      new Date(todayDate),
+    ).toISOString();
+    spot.sunrise = new Date(sunrise);
+    spot.sunset = new Date(sunset);
+    spot.updated = new Date(todayDate);
+  }
+  
   await spot.save();
   return true;
 };
