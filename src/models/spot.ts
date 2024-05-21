@@ -4,6 +4,21 @@ import { ISpot } from '../interfaces/models';
 const SpotSchema = new Schema<ISpot>({
   name: { type: String, required: true, maxLength: 100 },
   searchName: { type: String, required: true, maxLength: 100 },
+  updated: {
+    type: Date,
+    required: true,
+    default: new Date('2020-01-01T00:00:00Z'),
+  },
+  sunrise: {
+    type: Date,
+    required: true,
+    default: new Date('2020-01-01T07:00:00Z'),
+  },
+  sunset: {
+    type: Date,
+    required: true,
+    default: new Date('2020-01-01T21:00:00Z'),
+  },
   lat: { type: Number, required: true },
   lon: { type: Number, required: true },
   forecasts: [{ type: Schema.Types.ObjectId, ref: 'Forecast' }],

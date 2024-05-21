@@ -70,6 +70,9 @@ export interface ISpot extends Document {
   _id: Schema.Types.ObjectId;
   name: string;
   searchName: string;
+  updated: Date;
+  sunrise: Date;
+  sunset: Date;
   lat: number;
   lon: number;
   forecasts: IForecast[];
