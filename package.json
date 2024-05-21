@@ -27,6 +27,7 @@
     "moment": "^2.30.1",
     "mongoose": "^8.0.4",
     "netcdfjs": "^3.0.0",
-    "shelljs": "^0.8.5"
+    "shelljs": "^0.8.5",
+    "sunrise-sunset-js": "^2.2.1"
   }
 }
