@@ -14,6 +14,7 @@ import {
   ISpotForecastModels,
 } from '../interfaces/models';
 import { Forecast, ForecastInfo, Spot } from '../models';
+import { dir, time } from 'console';
 
 export const updateSpotForecast = async (
   spot: ISpot,
@@ -436,14 +437,22 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
 
   spot.forecast = newForecastArray;
 
+  const lightForecastArray = newForecastArray.map((forecast) => {
+    const lightForecast = {
+      time: forecast.time,
+      dir: forecast.dir,
+      ws: forecast.ws,
+      wsMax: forecast.wsMax,
+    };
+    return lightForecast;
+  });
+
+  spot.lightForecast = lightForecastArray;
+
   // check if spot sunrise and sunset are set and update them if not or if they are outdated
   const todayDate = new Date().setHours(0, 0, 0, 0);
   const updateTime = spot.updated ? spot.updated : new Date(0);
-  if (
-    !spot.sunrise ||
-    !spot.sunset ||
-    updateTime.getTime() < todayDate
-  ) {
+  if (!spot.sunrise || !spot.sunset || updateTime.getTime() < todayDate) {
     const sunrise = getSunrise(
       spot.lat,
       spot.lon,
@@ -458,7 +467,7 @@ const compressSpotForecast = async (id: Types.ObjectId): Promise<boolean> => {
     spot.sunset = new Date(sunset);
     spot.updated = new Date(todayDate);
   }
-  
+
   await spot.save();
   return true;
 };
@@ -468,5 +477,6 @@ export const compileSpotForecasts = async (): Promise<boolean> => {
   const spotIds: Types.ObjectId[] = await Spot.find().select('_id');
   // compress all spot forecasts
   await Promise.all(spotIds.map((spotId) => compressSpotForecast(spotId)));
+
   return true;
 };

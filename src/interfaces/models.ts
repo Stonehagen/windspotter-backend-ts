@@ -78,10 +78,23 @@ export interface ISpot extends Document {
   forecasts: IForecast[];
   windDirections: boolean[];
   forecast: Object[];
+  lightForecast: Object[];
   waveForecast: string;
   shortRangeForecast: string;
   midRangeForecast: string;
   longRangeForecast: string;
+}
+
+export interface IForecastDay extends Document {
+  _id: Schema.Types.ObjectId;
+  date: Date;
+  spotForecasts: ISpotDayForecast[];
+}
+
+export interface ISpotDayForecast extends Document {
+  _id: Schema.Types.ObjectId;
+  spot: ISpot;
+  forecast: [];
 }
 
 export interface ILatestPrefix {

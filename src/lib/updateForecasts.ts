@@ -97,5 +97,6 @@ export const updateForecasts = async (forecastName: string, test: boolean) => {
     console.log('could not stich forecasts');
     return false;
   }
+
   return true;
 };
